@@ -21,6 +21,18 @@ finish-args:
 
 modules:
   - name: sbcl
+    buildsystem: simple
+    sources:
+      - type: archive
+        url: http://prdownloads.sourceforge.net/sbcl/sbcl-2.0.11-x86-64-linux-binary.tar.bz2
+        sha256: b7e61bc6b8d238f8878e660bc0635e99c2ea1255bfd6153d702fe9a00f8138fd
+    build-options:
+      env:
+        BUILD_ROOT: "/app/sbcl"
+    build-commands:
+      - sh install.sh
+      - mkdir /app/tools
+
   - name: libfixposix
     buildsystem: autotools
     sources:
@@ -42,6 +54,10 @@ modules:
         only-arches: [x86_64]
       - type: file
         path: engineer.atlas.Nyxt.appdata.xml
+    build-options:
+      no-debuginfo: false
+      env:
+        LISP: "/app/sbcl/usr/local/bin/sbcl"
     build-commands:
       - tar xvf nyxt.tar.xz
       - make all
@@ -49,5 +65,3 @@ modules:
       - find $FLATPAK_DEST/share -type f -exec rename nyxt engineer.atlas.Nyxt '{}' \;
       - cp /usr/lib/$(gcc --print-multiarch)/libbfd-*.so /app/lib
       - install -D engineer.atlas.Nyxt.appdata.xml /app/share/appdata/engineer.atlas.Nyxt.appdata.xml
-    build-options:
-      no-debuginfo: false
