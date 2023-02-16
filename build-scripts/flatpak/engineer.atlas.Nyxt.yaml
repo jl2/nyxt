@@ -31,7 +31,6 @@ modules:
         BUILD_ROOT: "/app/sbcl"
     build-commands:
       - sh install.sh
-      - mkdir /app/tools
 
   - name: libfixposix
     buildsystem: autotools
@@ -62,7 +61,5 @@ modules:
     build-commands:
       - tar xvf nyxt.tar.xz
       - make all
-      - desktop-file-edit $FLATPAK_DEST/share/applications/nyxt.desktop --set-icon=engineer.atlas.Nyxt
-      - find $FLATPAK_DEST/share -type f -exec rename nyxt engineer.atlas.Nyxt '{}' \;
-      - cp /usr/lib/$(gcc --print-multiarch)/libbfd-*.so /app/lib
-      - install -D engineer.atlas.Nyxt.appdata.xml /app/share/appdata/engineer.atlas.Nyxt.appdata.xml
+      - mkdir $FLATPAK_DEST/bin
+      - mv nyxt $FLATPAK_DEST/bin/
