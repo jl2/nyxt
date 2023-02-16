@@ -58,6 +58,7 @@ modules:
       no-debuginfo: false
       env:
         LISP: "/app/sbcl/usr/local/bin/sbcl"
+        LISP_FLAGS: "--dynamic-space-size 4096 --no-userinit --non-interactive"
     build-commands:
       - tar xvf nyxt.tar.xz
       - make all
