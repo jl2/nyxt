@@ -25,16 +25,16 @@ Multiple key presses can be chained: in 'C-x C-s', you would have to press
         (:p "Modifiers can be remapped, see the " (:code "modifier-translator")
             " slot of the " (:code "gtk-browser") " class."))
 
-      (:nsection :title "Quickstart keys"
-        (:ul
-         (list-command-information '(set-url reload-current-buffer
-                                     set-url-new-buffer
-                                     switch-buffer-previous
-                                     nyxt/history-mode:history-backwards
-                                     nyxt/history-mode:history-forwards
-                                     nyxt/hint-mode:follow-hint
-                                     nyxt/hint-mode:follow-hint-new-buffer
-                                     quit execute-command describe-bindings))))
+      (:h1 "Quickstart keys"
+           (:ul
+            (list-command-information '(set-url reload-current-buffer
+                                        set-url-new-buffer
+                                        switch-buffer-previous
+                                        nyxt/history-mode:history-backwards
+                                        nyxt/history-mode:history-forwards
+                                        nyxt/hint-mode:follow-hint
+                                        nyxt/hint-mode:follow-hint-new-buffer
+                                        quit execute-command describe-bindings))))
 
       (:nsection :title "Buffers"
         (:p "Nyxt uses the concept of buffers instead of tabs. Unlike tabs, buffers
@@ -395,3 +395,103 @@ definition and documentation.")
       (:p "A good starting point is to study the documentation of the classes "
           (:code "browser") ", " (:code "window") ", " (:code "buffer") " and "
           (:code "prompt-buffer") "."))))
+
+(define-panel-command-global interactive-tutorial (&key (page 1))
+    (panel "*Interactive tutorial*" :left)
+  ;; FIXME: Maybe we should add a width parameter to `define-panel-*'?
+  (setf (ffi-width panel) 350)
+  (spinneret:with-html-string
+    (macrolet ((checkbox (&body body)
+                 `(:div (:label (:input :type "checkbox") ,@body))))
+      (case page
+        (1
+         (:h1 "Buffers")
+         (:p "Nyxt uses " (:span.accent "buffers")
+             " to navigate and to organize information for you on the web. "
+             (:span.accent "Buffers")
+             " are like tabs, or groups of pages on the web, and they are so much more.")
+         (:p (:span.accent "Buffers")
+             " carry much more information than legacy browser tabs. They can be easily
+searched and retrieved by cool things like: contexts, tags, titles, URLs,
+keywords, and bookmarks.")
+         (:p (:span.accent "Buffers") " can be sorted, grouped, related to each-other, and even used to edit
+local files on your machine. So yes; you can have a buffer open for taking
+notes, and another for web surfing, and another for searching several webpages
+at once, while another buffer checks for concert tickets every seven seconds. We
+love " (:span.accent "buffers") "!"))
+        (2
+         (:h1 "Keybindings")
+         (:p "In Nyxt, most actions are bound to keys-pairs, or key-triplets structured: "
+             (:code.accent "[modifier key]") "-" (:code.accent "[character key]") ".")
+         (:ol
+          (:li "These key-bindings help you trigger useful actions.")
+          (:li "You can recognize these these key-pairs, and key-triplets by the hyphen (" (:span.accent "-") ") connecting them.")
+          (:p (:b "Examples of key pairs:") " " (:span.accent "C-t")
+              " opens a brand new buffer, and "
+              (:span.accent "C-r") " reloads your current buffer")
+          (:li "We only use four (4) sacred modifier keys: "
+               (:span.accent "C") "," (:span.accent "s") "," (:span.accent "S")
+               "," (:span.accent "M") ".")
+          (:li "The rest are simple character keys like "
+               (:span.accent "j") " or " (:span.accent "]") "."))
+         (:p "The modifiers are:")
+         (:table
+          (:tr (:td "Shift (" (:span.accent "s") ")")
+               (:td "Shift key"))
+          (:tr (:td "Control (" (:span.accent "C") ")")
+               (:td "Control key"))
+          (:tr (:td "Super (" (:span.accent "S") ")")
+               #+darwin (:td "Command key")
+               #-darwin (:td "Windows key"))
+          (:tr (:td "Meta (" (:span.accent "M") ")")
+               #+darwin (:td "Option key")
+               #-darwin (:td "Alt key")))
+         (:p (:b "For example:") " " (:span.accent "M-.")  " means you should hold "
+             (:span.accent #+darwin "Option" #-darwin "Alt") ", then press " (:span.accent ".")
+             " (period). This would open up the headings panel."))
+        (3
+         (:h1 "Quickstart bindings")
+         (:p "Feel free to mark off lessons from this checklist as get you up to speed:")
+         (checkbox " navigate to a new URL with " (:nxref :command 'set-url :command-key-p nil) ".")
+         (:p "To navigate to a page or search the Internet:)"
+             (:ol
+              (:li "Invoke " (:nxref :command 'set-url) ".")
+              (:li "Input your destination and tap " (:code "Return") "."))
+             (:p (:b "Notice that") " some of your choices are web pages, and others are search results
+from the default search engine, DuckDuckGo."))
+         (checkbox " return to a previous page history with "
+                   (:nxref :command 'nyxt/history-mode:history-backwards :command-key-p nil)".")
+         (:p "When you are ready to return:")
+         (:ol
+          (:li "Use " (:nxref :command 'nyxt/history-mode:history-backwards) " and "
+               (:nxref :command 'nyxt/history-mode:history-forwards) "."))
+         (checkbox " create a few new buffers with the "
+                   (:nxref :command 'set-url-new-buffer :command-key-p nil)
+                   " command, and switch between them in two different ways.")
+         (:p "You can create a new buffer with the command "
+             (:nxref :command 'set-url-new-buffer) ".")
+         (:p (:b "Notice that") " you can see a list with most of your buffers on the horizontal
+status bar below.")
+         (:p "Switch between those buffers with:")
+         (:ol
+          (:li (:nxref :command 'switch-buffer-next))
+          (:li "and " (:nxref :command 'switch-buffer-previous) " for previous.")
+          (:li "Close a buffer with " (:nxref :command 'delete-current-buffer)))
+         (checkbox " open a few buffers and move between them in another way with "
+                   (:nxref :command 'switch-buffer :command-key-p nil)
+                   ".")
+         (:p "A simple way to navigate buffers is by using " (:nxref :command 'switch-buffer)
+             " to bring up a list of all open destinations."))
+        (4)
+        (5)
+        (6)
+        (7)))
+    (:hr)
+    (when (> page 1)
+      (:a.button
+       :href (nyxt-url 'interactive-tutorial :page (1- page))
+       "Previous page"))
+    (when (< page 7)
+      (:a.button
+       :href (nyxt-url 'interactive-tutorial :page (1+ page))
+       "Next page"))))
