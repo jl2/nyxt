@@ -426,7 +426,7 @@ love " (:span.accent "buffers") "!"))
          (:ol
           (:li "These key-bindings help you trigger useful actions.")
           (:li "You can recognize these these key-pairs, and key-triplets by the hyphen (" (:span.accent "-") ") connecting them.")
-          (:p (:b "Examples of key pairs:") " " (:span.accent "C-t")
+          (:p (:b "Examples of key pairs:") " the pair " (:span.accent "C-t")
               " opens a brand new buffer, and "
               (:span.accent "C-r") " reloads your current buffer")
           (:li "We only use four (4) sacred modifier keys: "
@@ -451,23 +451,16 @@ love " (:span.accent "buffers") "!"))
              " (period). This would open up the headings panel."))
         (3
          (:h1 "Quickstart bindings")
-         (:p "Feel free to mark off lessons from this checklist as get you up to speed:")
-         (checkbox " navigate to a new URL with " (:nxref :command 'set-url :command-key-p nil) ".")
          (:p "To navigate to a page or search the Internet:)"
              (:ol
               (:li "Invoke " (:nxref :command 'set-url) ".")
               (:li "Input your destination and tap " (:code "Return") "."))
              (:p (:b "Notice that") " some of your choices are web pages, and others are search results
 from the default search engine, DuckDuckGo."))
-         (checkbox " return to a previous page history with "
-                   (:nxref :command 'nyxt/history-mode:history-backwards :command-key-p nil)".")
          (:p "When you are ready to return:")
          (:ol
           (:li "Use " (:nxref :command 'nyxt/history-mode:history-backwards) " and "
                (:nxref :command 'nyxt/history-mode:history-forwards) "."))
-         (checkbox " create a few new buffers with the "
-                   (:nxref :command 'set-url-new-buffer :command-key-p nil)
-                   " command, and switch between them in two different ways.")
          (:p "You can create a new buffer with the command "
              (:nxref :command 'set-url-new-buffer) ".")
          (:p (:b "Notice that") " you can see a list with most of your buffers on the horizontal
@@ -477,13 +470,33 @@ status bar below.")
           (:li (:nxref :command 'switch-buffer-next))
           (:li "and " (:nxref :command 'switch-buffer-previous) " for previous.")
           (:li "Close a buffer with " (:nxref :command 'delete-current-buffer)))
-         (checkbox " open a few buffers and move between them in another way with "
-                   (:nxref :command 'switch-buffer :command-key-p nil)
-                   ".")
          (:p "A simple way to navigate buffers is by using " (:nxref :command 'switch-buffer)
              " to bring up a list of all open destinations."))
-        (4)
-        (5)
+        (4
+         (:p "All actions in Nyxt have a " (:span.accent "name")
+             ", and most have a keybinding. We call actions commands, and the "
+             (:span.accent "Execute Command Menu")
+             "is the best place to call them by name. You can access all of the relevant
+commands if you invoke " (:nxref :command 'execute-command) ". For example, your familiar "
+(:nxref :command 'set-url) " will appear as you type even part of its name, or purpose."))
+        (5
+         (:p "Separate tasks are best handled with separate settings. To manage this
+complexity we operate Nyxt with " (:span.accent "modes") ".")
+         (:p (:span.accent "Modes")
+             " are toggled [on/off] for a different experience and functionality in each
+buffer. As each buffer has it's own instance of modes, "
+             (:b "these changes will only relate to pages in that specific buffer."))
+         (:p "To toggle a " (:span.accent "mode")
+             " on or off; use the" (:nxref :command 'toggle-modes) " command.")
+         (:p (:b "For example;")
+             " if you don't want to manage browser history, you can always disable"
+             (:nxref :mode 'nyxt/history-mode:history-mode) " and forget about history.")
+         (:p "If you want to have no images, you can enable "
+             (:nxref :mode 'nyxt/no-image-mode:no-image-mode) " and enjoy the image-less Web!")
+         (:p "Tired of pop-ups? Try " (:nxref :mode 'nyxt/no-script-mode:no-script-mode))
+         (:p (:b "Note:") " Some " (:span.accent "modes")
+             " have their own specific commands, visible and actionable only in that "
+             (:span.accent "mode") "."))
         (6)
         (7)))
     (:hr)
