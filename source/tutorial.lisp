@@ -405,7 +405,7 @@ definition and documentation.")
                  `(:div (:label (:input :type "checkbox") ,@body))))
       (case page
         (1
-         (:h1 "Buffers")
+         (:h2 "Buffers")
          (:p "Nyxt uses " (:span.accent "buffers")
              " to navigate and to organize information for you on the web. "
              (:span.accent "Buffers")
@@ -420,7 +420,7 @@ notes, and another for web surfing, and another for searching several webpages
 at once, while another buffer checks for concert tickets every seven seconds. We
 love " (:span.accent "buffers") "!"))
         (2
-         (:h1 "Keybindings")
+         (:h2 "Keybindings")
          (:p "In Nyxt, most actions are bound to keys-pairs, or key-triplets structured: "
              (:code.accent "[modifier key]") "-" (:code.accent "[character key]") ".")
          (:ol
@@ -450,7 +450,7 @@ love " (:span.accent "buffers") "!"))
              (:span.accent #+darwin "Option" #-darwin "Alt") ", then press " (:span.accent ".")
              " (period). This would open up the headings panel."))
         (3
-         (:h1 "Quickstart bindings")
+         (:h2 "Quickstart bindings")
          (:p "To navigate to a page or search the Internet:)"
              (:ol
               (:li "Invoke " (:nxref :command 'set-url) ".")
@@ -473,6 +473,7 @@ status bar below.")
          (:p "A simple way to navigate buffers is by using " (:nxref :command 'switch-buffer)
              " to bring up a list of all open destinations."))
         (4
+         (:h2 "Commands")
          (:p "All actions in Nyxt have a " (:span.accent "name")
              ", and most have a keybinding. We call actions commands, and the "
              (:span.accent "Execute Command Menu")
@@ -480,6 +481,7 @@ status bar below.")
 commands if you invoke " (:nxref :command 'execute-command) ". For example, your familiar "
 (:nxref :command 'set-url) " will appear as you type even part of its name, or purpose."))
         (5
+         (:h2 "Modes")
          (:p "Separate tasks are best handled with separate settings. To manage this
 complexity we operate Nyxt with " (:span.accent "modes") ".")
          (:p (:span.accent "Modes")
