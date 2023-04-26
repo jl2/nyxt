@@ -478,8 +478,13 @@ status bar below.")
              ", and most have a keybinding. We call actions commands, and the "
              (:span.accent "Execute Command Menu")
              "is the best place to call them by name. You can access all of the relevant
-commands if you invoke " (:nxref :command 'execute-command) ". For example, your familiar "
-(:nxref :command 'set-url) " will appear as you type even part of its name, or purpose."))
+commands if you invoke " (:nxref :command 'execute-command) ".")
+         (:p "For example, your familiar "
+             (:nxref :command 'set-url)
+             " will appear as you type even part of its name, or purpose.")
+         (:p "If you dont mind a bit of recursion, try the command "
+             (:nxref :command 'describe-command)
+             ". Questions about specific commands are answered here."))
         (5
          (:h2 "Modes")
          (:p "Separate tasks are best handled with separate settings. To manage this
@@ -489,9 +494,9 @@ complexity we operate Nyxt with " (:span.accent "modes") ".")
 buffer. As each buffer has it's own instance of modes, "
              (:b "these changes will only relate to pages in that specific buffer."))
          (:p "To toggle a " (:span.accent "mode")
-             " on or off; use the" (:nxref :command 'toggle-modes) " command.")
-         (:p (:b "For example;")
-             " if you don't want to manage browser history, you can always disable"
+             " on or off; use the " (:nxref :command 'toggle-modes) " command.")
+         (:p (:b "For example,")
+             " if you don't want to manage browser history, you can always disable "
              (:nxref :mode 'nyxt/history-mode:history-mode) " and forget about history.")
          (:p "If you want to have no images, you can enable "
              (:nxref :mode 'nyxt/no-image-mode:no-image-mode) " and enjoy the image-less Web!")
@@ -499,14 +504,62 @@ buffer. As each buffer has it's own instance of modes, "
          (:p (:b "Note:") " Some " (:span.accent "modes")
              " have their own specific commands, visible and actionable only in that "
              (:span.accent "mode") "."))
-        (6)
-        (7)))
+        (6
+         (:h2 "Intermediate Missions")
+         (:p "Let's try out a command named " (:nxref :command 'nyxt/document-mode:jump-to-heading) ".")
+         (:ol
+          (:li " Navigate to a web page with multiple headings and paragraphs using "
+               (:nxref :command 'set-url)
+               ". Perhaps entering \"wiki hummingbird\" in the prompt area to navigate to the
+wikipedia page titled \"Hummingbird\".")
+          (:li "Invoke the " (:nxref :command 'nyxt/document-mode:jump-to-heading)
+               " command with either its keybinding or " (:span.accent "Execute Command Menu")
+               " and the name of our command: " (:span.accent "jump-to-heading") ".")
+          (:li "Observe this new " (:span.accent "jump-to-heading") " menu and how the main page scrolls as you scroll through the suggested
+headings.")
+          (:li "Well done! As usual, use " (:code.accent "return") " or " (:code.accent "escape")
+               "to close the prompt buffer."))
+         (:p "For another way to navigate headings like this try "
+             (:nxref :command 'nyxt/document-mode:next-heading) " and "
+             (:nxref :command 'nyxt/document-mode:previous-heading) "."))
+        (7
+         (:h2 "Describe Anything")
+         (:p "Finally, we would like to introduce you to" (:nxref :command 'describe-bindings)
+             " and " (:nxref :command 'describe-any)
+             ". These commands are of course accessed with your "
+             (:nxref :command 'execute-command "Execute Commands Menu")
+             " and are used to understand any keybinding or other digital object in Nyxt.")
+         (:p "Give it a try:")
+         (:ol
+          (:li "Type " (:code "describe-bindings") " in the "
+               (:nxref :command 'execute-command "Execute Commands Menu")
+               ", and " (:code.accent "return") ".")
+          (:li "Observe this buffer-specific list of keybindings available to you."))
+         (:p "As you probably get the idea, " (:nxref :command 'describe-any)
+             " can be used to find information about most everything in Nyxt.")
+         (:p "You can also recall the " (:nxref :command 'describe-command) " and "
+             (:nxref :command 'describe-mode)
+             " from the pages before. These, too, are parts of the system we call Describe
+System (or Help System). It allows you to learn more about Nyxt from inside
+Nyxt."))
+        (8
+         (:h2 "Well done!")
+         (:p "Feel free to explore from here! You can always return to this tutorial using "
+             (:nxref :command 'interactive-tutorial) " command.")
+         (:p "Likewise, you can find a manual covering more in-depth topics as well as some
+intermediate and advanced missions using "
+             (:nxref :command 'manual)))))
     (:hr)
     (when (> page 1)
       (:a.button
        :href (nyxt-url 'interactive-tutorial :page (1- page))
        "Previous page"))
-    (when (< page 7)
+    (when (< page 8)
       (:a.button
        :href (nyxt-url 'interactive-tutorial :page (1+ page))
-       "Next page"))))
+       "Next page"))
+    (when (= page 8)
+      (:a.button
+       :target "_blank"
+       :href (nyxt-url 'manual)
+       "Open the manual!"))))
