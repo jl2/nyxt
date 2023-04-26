@@ -184,33 +184,6 @@ The version number is saved to clipboard."
   (trivial-clipboard:text +version+)
   (echo "Version ~a" +version+))
 
-(define-panel-command intro ()
-    (panel "*Introduction*" :left)
-  (spinneret:with-html-string
-    (:h1 "Getting Started with Nyxt")
-    (:p "If you want to start browsing right away, then you probably want to use "
-        (:nxref :command 'set-url)
-        ". As an alternative, you can click on the link currently open, and it will
-bring up the same prompt as " (:code "set-url") " does.")
-    (:p "If you get stuck, you can always use arrow keys in the status bar (this area
-with buttons below the page you browse), or use commands like "
-        (:nxref :command 'nyxt/history-mode:history-backwards) " and "
-        (:nxref :command 'nyxt/history-mode:history-forwards)
-        " to navigate around the pages you visited.")
-    (:p "You can run any command you wish and get familiar with all the actions you
-have, using " (:nxref :command 'execute-command)
-". Nyxt has lots of features represented by commands, so you can find lots of
-useful actions there, including the familiar " (:code "set-url") ", " (:code "history-backwards")
-", and " (:code "history-forwards") ".")
-    (:div (:nbutton :text "I want to know more, show me the manual!"
-            :buffer panel
-            '(manual))
-          (:nbutton
-            :buffer panel
-            :class "accent"
-            :text "Got it, close this panel"
-            `(delete-panel-buffer :panels ,panel)))))
-
 (define-internal-page-command-global new ()
     (buffer "*New buffer*")
   "Open up a buffer with useful links suitable for `default-new-buffer-url'."
