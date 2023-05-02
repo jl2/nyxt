@@ -48,6 +48,13 @@ jobs:
         make flatpak-repository
         make flatpak-bundle
 
+    - name: Generate release notes
+      shell: bash
+      run: |
+        echo "Release notes: https://nyxt.atlas.engineer/article/release.org" >> release.txt
+        echo "" >> release.txt
+        echo "To compile from source, prefer the tarball including the submodules if you don't manage the Lisp dependencies yourself." >> release.txt
+
     - name: Release
       uses: ncipollo/release-action@v1
       with:
