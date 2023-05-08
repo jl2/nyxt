@@ -693,3 +693,11 @@ JavaScript calls.")
           " attribute list is interpreted as display HTML for the suggestion. See the
 color-picker support as an example application for this feature.")
      (:li "New " (:nxref :function 'match-port) " URL designator predicate for auto-rules."))))
+
+(define-version "3.1.0"
+  (:nsection
+    :title "Bug Fixes"
+    :id "bug-fixes-3.1.0"
+    (:ul
+     (:li "Clicked links are now fully inspectable and all the functionality of Nyxt works
+properly with these."))))
