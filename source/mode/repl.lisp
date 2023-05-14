@@ -107,6 +107,11 @@ Generic function to specialize for all the REPL cell types.
 Use CELL (and, likely, its `input') and set its `results' and `output' to the
 meaningful values."))
 
+(defgeneric complete (cell)
+  (:documentation "Get a single most intuitive tab-completion string for CELL contents.
+Can rely on current contents of a cell or just use some context-free suggestions
+and `prompt'-ing."))
+
 (export-always 'render-input)
 (defgeneric render-input (cell)
   (:method ((cell cell))
@@ -185,6 +190,7 @@ Generic function to specialize against new REPL cell types."))
     :documentation "The package where Lisp cell reading and `evaluate'-ion happens.")
    (actions
     '(("Eval" evaluate-cell)
+      ("Tab-complete" complete-cell)
       ("Cancel" cancel-cell)
       ("Add cell below" add-cell)
       ("Clean" clean-cell)
@@ -252,6 +258,18 @@ The `input' should be a valid Lisp code `read'-able in the `eval-package'.
                      (setf results (multiple-value-list (eval s-exp))
                            output (get-output-stream-string *standard-output*)))
                    (safe-slurp-stream-forms in)))))))
+  (:method complete (self)
+    (alex:when-let ((completion (prompt1 :prompt "Completion"
+                                         :sources '(nyxt::variable-source
+                                                    nyxt::function-source
+                                                    nyxt::class-source
+                                                    nyxt::variable-non-nyxt-source
+                                                    nyxt::function-non-nyxt-source
+                                                    nyxt::class-non-nyxt-source
+                                                    nyxt::variable-internal-source
+                                                    nyxt::function-internal-source
+                                                    nyxt::class-internal-source))))
+      (prini-to-string completion :package (eval-package self))))
   (:method render-results (self)
     (spinneret:with-html-string
       (unless (uiop:emptyp output)
@@ -374,6 +392,7 @@ The `input' should be a valid Lisp code `read'-able in the `eval-package'.
     (define-keyscheme-map "repl-mode" ()
       keyscheme:default
       (list
+       "tab" 'complete-cell
        "C-return" 'evaluate-cell)
       keyscheme:emacs
       (list
@@ -393,7 +412,8 @@ The `input' should be a valid Lisp code `read'-able in the `eval-package'.
        "C-_" 'move-cell-down
        "C-k" 'clean-cell
        "C-M-k" 'delete-cell
-       "M-q" 'reformat-cell)
+       "M-q" 'reformat-cell
+       "C-i" 'complete-cell)
       keyscheme:vi-normal
       (list
        ;; TODO: deleting chars/words
@@ -475,6 +495,9 @@ The `input' should be a valid Lisp code `read'-able in the `eval-package'.
                             (setf (ready-p cell) t)
                             (reload-repl repl)))
       (reload-repl repl))))
+
+(define-command complete-cell (&optional (cell (current-cell (find-submode 'repl-mode))))
+  (ffi-buffer-paste (buffer (mode-instance cell)) (complete cell)))
 
 (define-command add-cell (&optional (cell (current-cell (find-submode 'repl-mode)))
                           (class (let ((nyxt::*interactive-p* t))
