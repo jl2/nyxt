@@ -693,3 +693,16 @@ JavaScript calls.")
           " attribute list is interpreted as display HTML for the suggestion. See the
 color-picker support as an example application for this feature.")
      (:li "New " (:nxref :function 'match-port) " URL designator predicate for auto-rules."))))
+
+(define-version "3.1.0"
+  (:nsection
+    :title "New features"
+    :id "new-features-3.1.0"
+    (:ul
+     (:li "Re-enable global history.")))
+  (:nsection
+    :title "Programming interfaces"
+    :id "programming-interface-3.1.0"
+    (:ul
+     (:li (:code "conservative-history-movement-p") " was deprecated in favor of "
+          (:nxref :slot 'global-history-p :class-name 'buffer) "."))))
