@@ -109,8 +109,7 @@ meaningful values."))
 
 (defgeneric complete (cell)
   (:documentation "Get a single most intuitive tab-completion string for CELL contents.
-Can rely on current contents of a cell or just use some context-free suggestions
-and `prompt'-ing."))
+The completion suggestions rely on the CELL's contents, when possible."))
 
 (export-always 'render-input)
 (defgeneric render-input (cell)
