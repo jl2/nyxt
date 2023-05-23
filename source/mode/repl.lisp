@@ -259,14 +259,14 @@ The `input' should be a valid Lisp code `read'-able in the `eval-package'.
                    (safe-slurp-stream-forms in)))))))
   (:method complete (self)
     (alex:when-let ((completion (prompt1 :prompt "Completion"
-                                         :sources '(nyxt::variable-source
-                                                    nyxt::function-source
+                                         :sources '(nyxt::function-source
+                                                    nyxt::variable-source
                                                     nyxt::class-source
-                                                    nyxt::variable-non-nyxt-source
                                                     nyxt::function-non-nyxt-source
+                                                    nyxt::variable-non-nyxt-source
                                                     nyxt::class-non-nyxt-source
-                                                    nyxt::variable-internal-source
                                                     nyxt::function-internal-source
+                                                    nyxt::variable-internal-source
                                                     nyxt::class-internal-source))))
       (prini-to-string completion :package (eval-package self))))
   (:method render-results (self)
