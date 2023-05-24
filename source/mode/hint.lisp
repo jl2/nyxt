@@ -420,7 +420,6 @@ FUNCTION is the action to perform on the selected elements."
 
 (defmethod %follow-hint-new-buffer-focus ((a nyxt/dom:a-element) &optional parent-buffer)
   (make-buffer-focus :url (url a)
-                     :parent-buffer parent-buffer
                      :nosave-buffer-p (nosave-buffer-p parent-buffer)))
 
 (defmethod %follow-hint-new-buffer-focus ((element plump:element) &optional parent-buffer)

@@ -1112,7 +1112,8 @@ See `make-buffer' for a description of the arguments."
   (declare (ignorable title modes url load-url-p))
   (apply #'make-buffer (append (list :buffer-class 'nosave-buffer) args)))
 
-(define-command make-buffer-focus (&key (url (default-new-buffer-url *browser*)) parent-buffer nosave-buffer-p)
+(define-command make-buffer-focus (&key (url (default-new-buffer-url *browser*))
+                                   (parent-buffer (current-buffer)) nosave-buffer-p)
   "Switch to a new buffer.
 See `make-buffer'."
   (let ((buffer (if nosave-buffer-p
@@ -1132,7 +1133,7 @@ See `make-buffer' for a description of the arguments."
   (declare (ignorable title modes url))
   (apply #'make-buffer (append (list :buffer-class 'background-buffer :no-history-p t) args)))
 
-(define-command duplicate-buffer-with-current-modes (&key (modes nil) parent-buffer)
+(define-command duplicate-buffer-with-current-modes (&key (modes nil) (parent-buffer (current-buffer)))
   "Duplicate current buffer in a new buffer with current modes as well."
   (let* ((curr-buffer (current-buffer))
          (buffer (make-buffer :title (title curr-buffer)
@@ -1475,7 +1476,7 @@ URL-DESIGNATOR is then transformed by BUFFER's `buffer-load-hook'."
 (export-always 'buffer-load*)
 (defun buffer-load* (url-list)
   "Load first element of URL-LIST in current buffer and the rest in new buffer(s)."
-  (mapc (lambda (url) (make-buffer :url (url url))) (rest url-list))
+  (mapc (lambda (url) (make-buffer :url (url url) :parent-buffer (current-buffer))) (rest url-list))
   (buffer-load (url (first url-list))))
 
 (define-class global-history-source (prompter:source)
@@ -1704,7 +1705,9 @@ any.")
               (list #'buffer-load*
                     (lambda-command new-buffer-load* (suggestion-values)
                       "Load URL(s) in new buffer(s)."
-                      (mapc (lambda (suggestion) (make-buffer :url (url suggestion))) (rest suggestion-values))
+                      (mapc (lambda (suggestion)
+                              (make-buffer :url (url suggestion) :parent-buffer (current-buffer)))
+                            (rest suggestion-values))
                       (make-buffer-focus :url (url (first suggestion-values))))
                     (lambda-command new-nosave-buffer-load* (suggestion-values)
                       "Load URL(s) in new buffer(s)."
@@ -1730,7 +1733,9 @@ any.")
       (let ((history (set-url-history *browser*))
             (actions-on-return (lambda-command new-buffer-load (suggestion-values)
                                  "Load URL(s) in new buffer(s)"
-                                 (mapc (lambda (suggestion) (make-buffer :url (url suggestion)))
+                                 (mapc (lambda (suggestion)
+                                         (make-buffer :url (url suggestion)
+                                                      :parent-buffer (current-buffer)))
                                        (rest suggestion-values))
                                  (make-buffer-focus :url (url (first suggestion-values))))))
         (pushnew-url-history history (url (current-buffer)))
